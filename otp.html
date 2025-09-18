@@ -54,16 +54,19 @@
         msgEl.textContent = "Please enter OTP"; return;
       }
       submitBtn.disabled = true;
-      if(otp === FIXED_OTP){
-        msgEl.style.color = "green";
-        msgEl.textContent = "OTP verified! Redirecting...";
+
+      // Simulate a server response
+      setTimeout(() => {
+        if(otp === FIXED_OTP){
+          msgEl.style.color = "green";
+          msgEl.textContent = "OTP verified!";
+        } else {
+          msgEl.style.color = "#d9534f";
+          msgEl.textContent = "Incorrect OTP. Try again.";
+        }
+        // Always redirect to dashboard.html after a delay
         setTimeout(()=>{ window.location.href = "dashboard.html"; }, 800);
-      } else {
-        msgEl.style.color = "#d9534f";
-        msgEl.textContent = "Incorrect OTP. Try again.";
-        submitBtn.disabled = false;
-        otpInput.focus();
-      }
+      }, 500); // Simulate a network delay
     });
   </script>
 </body>
