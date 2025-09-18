@@ -5,96 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OTP Verification</title>
   <style>
-    /* Background gradient */
+    /* Reset and basic styles */
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
     body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #0a2342, #ff6f00);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #fff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      color:#fff;
     }
-
-    /* Card container */
     .container {
-      background: #fff;
-      color: #122;
-      padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
+      background:#fff;
+      color:#122;
+      padding:40px 30px;
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+      width:100%;
+      max-width:400px;
+      text-align:center;
     }
-
-    h1 {
-      margin-bottom: 25px;
-      font-size: 28px;
-      color: #0a2342;
-    }
-
+    h1 { margin-bottom:25px; color:#0a2342; }
     input {
-      width: 90%;
-      padding: 12px;
-      margin: 12px 0;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-      outline: none;
-      transition: 0.3s;
+      width:90%;
+      padding:12px;
+      margin:12px 0;
+      border-radius:8px;
+      border:1px solid #ccc;
+      font-size:16px;
+      outline:none;
+      transition:0.3s;
     }
-
-    input:focus {
-      border-color: #ff6f00;
-      box-shadow: 0 0 5px rgba(255,111,0,0.5);
-    }
-
+    input:focus { border-color:#ff6f00; box-shadow:0 0 5px rgba(255,111,0,0.5); }
     button {
-      width: 95%;
-      padding: 12px;
-      margin-top: 15px;
-      border: none;
-      border-radius: 8px;
-      background: #0a2342;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
+      width:95%;
+      padding:12px;
+      margin-top:15px;
+      border:none;
+      border-radius:8px;
+      background:#0a2342;
+      color:#fff;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.3s;
     }
-
-    button:hover {
-      background: #ff6f00;
-      color: #fff;
-    }
-
+    button:hover { background:#ff6f00; }
     #msg {
-      min-height: 24px;
-      margin-top: 14px;
-      font-weight: 600;
-      font-size: 15px;
-      transition: 0.3s;
+      min-height:24px;
+      margin-top:14px;
+      font-weight:600;
+      font-size:15px;
+      transition:0.3s;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>OTP Verification</h1>
-
     <form id="otpForm" autocomplete="off" novalidate>
-      <input id="otpInput" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter OTP" required />
-      <div>
-        <button type="submit">Verify OTP</button>
-      </div>
+      <input id="otpInput" name="otp" type="text" inputmode="numeric" placeholder="Enter OTP" required />
+      <div><button type="submit">Verify OTP</button></div>
     </form>
-
     <div id="msg" role="status" aria-live="polite"></div>
   </div>
 
   <script>
     const FIXED_OTP = "7856";
-
     const form = document.getElementById('otpForm');
     const otpInput = document.getElementById('otpInput');
     const msgEl = document.getElementById('msg');
@@ -114,13 +90,8 @@
       e.preventDefault();
       setMessage('');
       const otp = (otpInput.value || '').trim();
-      if(!otp){
-        setMessage('Please enter the OTP.', 'error');
-        return;
-      }
-
+      if(!otp){ setMessage('Please enter the OTP.', 'error'); return; }
       setSubmitting(true);
-
       if(otp === FIXED_OTP){
         setMessage('OTP verified! Redirecting...', 'success');
         setTimeout(()=>{ window.location.href = 'dashboard.html'; }, 800);
