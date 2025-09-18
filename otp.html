@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification - Synthbit Technology</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Synthbit Technology</h1>
+  </header>
+
+  <section id="otp">
+    <div class="otp-card">
+      <h2>OTP Verification</h2>
+      <p>OTP has been sent to your registered email/phone.</p>
+
+      <input type="text" id="otpInput" placeholder="Enter OTP" required>
+      <button type="button" id="verifyOTPBtn">Verify OTP</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Synthbit Cybersecurity Institute. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const fixedOTP = "7856"; // hidden OTP
+    const verifyBtn = document.getElementById('verifyOTPBtn');
+
+    verifyBtn.addEventListener('click', () => {
+      const otp = document.getElementById('otpInput').value;
+      if (otp === fixedOTP) {
+        alert("OTP verified successfully!");
+        window.location.href = "dashboard.html";
+      } else {
+        alert("Invalid OTP! Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>
