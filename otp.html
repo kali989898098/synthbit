@@ -6,72 +6,38 @@
   <title>OTP Verification</title>
   <style>
     body {
-      margin:0; font-family: 'Courier New', monospace;
-      background: linear-gradient(135deg, #0a0a0a, #111111);
-      display:flex; justify-content:center; align-items:center; height:100vh; color:#33ff33;
+      margin:0; font-family:'Arial', sans-serif;
+      display:flex; justify-content:center; align-items:center; height:100vh;
+      background: linear-gradient(to right, #0a2342, #ff6f00); color:#fff;
     }
     .container {
-      background:#0d1117; color:#33ff33;
+      background:#fff; color:#0a2342;
       padding:40px 30px; border-radius:12px;
-      box-shadow:0 8px 20px rgba(0,0,0,0.6); width:100%; max-width:400px;
-      text-align:center;
+      width:100%; max-width:400px; text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,0.3);
     }
-    h1 { color:#33ff33; margin-bottom:20px; }
+    h1 { margin-bottom:20px; }
     input {
       width:85%; padding:12px; margin:12px 0;
-      border-radius:6px; border:1px solid #33ff33; background:#010409; color:#33ff33;
-      font-size:16px; outline:none;
+      border-radius:6px; border:1px solid #ccc; font-size:16px; outline:none;
     }
-    input:focus { box-shadow:0 0 5px #33ff33; }
+    input:focus { border-color:#ff6f00; }
     button {
-      width:90%; padding:12px; margin-top:15px;
-      border:none; border-radius:6px; background:#33ff33; color:#0d1117;
-      font-size:16px; cursor:pointer;
+      width:90%; padding:12px; border:none; border-radius:6px;
+      background:#0a2342; color:#fff; font-size:16px; cursor:pointer;
     }
-    button:hover { background:#0aff73; }
-    #msg { min-height:22px; margin-top:12px; font-weight:600; color:#ff5555; }
+    button:hover { background:#ff6f00; color:#fff; }
+    #msg { min-height:22px; margin-top:12px; font-weight:600; color:#d9534f; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>OTP Verification</h1>
-    <form id="otpForm" autocomplete="off">
-      <input id="otpInput" name="otp" type="text" placeholder="Enter OTP" required>
+    <form id="otpForm">
+      <input id="otpInput" type="text" placeholder="Enter OTP" required>
       <button type="submit">Verify OTP</button>
     </form>
     <div id="msg"></div>
   </div>
 
   <script>
-    const FIXED_OTP = "7856";
-    const form = document.getElementById('otpForm');
-    const otpInput = document.getElementById('otpInput');
-    const msgEl = document.getElementById('msg');
-    const submitBtn = form.querySelector('button');
-
-    function setMessage(text, type='error'){
-      msgEl.textContent = text;
-      msgEl.style.color = (type==='success') ? '#33ff33' : '#ff5555';
-    }
-
-    form.addEventListener('submit', e=>{
-      e.preventDefault();
-      const otp = (otpInput.value || '').trim();
-      if(!otp){ setMessage('Please enter OTP'); return; }
-      submitBtn.disabled = true;
-
-      if(otp === FIXED_OTP){
-        setMessage('OTP verified! Redirecting...', 'success');
-
-        // ✅ Correct redirect (relative path)
-        setTimeout(()=>{
-          window.location.href = 'dashboard.html'; 
-        }, 800);
-      } else {
-        setMessage('Incorrect OTP. Try again.');
-        submitBtn.disabled = false;
-        otpInput.focus();
-      }
-    });
-  </script>
-</
