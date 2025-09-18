@@ -41,3 +41,30 @@
   </div>
 
   <script>
+    const FIXED_OTP = "7856";
+    const form = document.getElementById('otpForm');
+    const otpInput = document.getElementById('otpInput');
+    const msgEl = document.getElementById('msg');
+    const submitBtn = form.querySelector('button');
+
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      const otp = otpInput.value.trim();
+      if(!otp){
+        msgEl.textContent = "Please enter OTP"; return;
+      }
+      submitBtn.disabled = true;
+      if(otp === FIXED_OTP){
+        msgEl.style.color = "green";
+        msgEl.textContent = "OTP verified! Redirecting...";
+        setTimeout(()=>{ window.location.href = "dashboard.html"; }, 800);
+      } else {
+        msgEl.style.color = "#d9534f";
+        msgEl.textContent = "Incorrect OTP. Try again.";
+        submitBtn.disabled = false;
+        otpInput.focus();
+      }
+    });
+  </script>
+</body>
+</html>
