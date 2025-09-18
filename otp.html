@@ -1,38 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>OTP Verification</title>
+  <style>
+    /* minimal styling */
+    body { font-family: Arial, sans-serif; background:#f6f8fb; color:#122; }
+    .container { max-width:420px; margin:80px auto; padding:28px; background:#fff; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.06); text-align:center; }
+    h1 { color:#0a2342; margin-bottom:10px; }
+    input { width:84%; padding:10px; margin:10px 0; border-radius:6px; border:1px solid #ccc; }
+    button { padding:10px 18px; border:none; border-radius:6px; background:#0a2342; color:#fff; cursor:pointer; }
+    #msg { min-height:22px; margin-top:12px; font-weight:600; }
+  </style>
 </head>
 <body>
-  <h2>Enter OTP</h2>
-  <form id="otpForm">
-    <input type="text" id="otpInput" placeholder="Enter OTP" required>
-    <button type="submit">Verify</button>
-  </form>
+  <div class="container">
+    <h1>OTP Verification</h1>
 
-  <p id="msg"></p>
+    <form id="otpForm" autocomplete="off" novalidate>
+      <input id="otpInput" name="otp" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter OTP" required />
+      <div><button type="submit">Verify OTP</button></div>
+    </form>
+
+    <div id="msg" role="status" aria-live="polite"></div>
+  </div>
 
   <script>
+    // Fixed OTP (client-side check)
     const FIXED_OTP = "7856";
-    const form = document.getElementById("otpForm");
-    const otpInput = document.getElementById("otpInput");
-    const msg = document.getElementById("msg");
 
-    form.addEventListener("submit", function(e) {
+    const form = document.getElementById('otpForm');
+    const otpInput = document.getElementById('otpInput');
+    const msgEl = document.getElementById('msg');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    function setMessage(text, type = 'error') {
+      msgEl.textContent = text;
+      msgEl.style.color = (type === 'success') ? '#2e8b57' : '#d9534f';
+    }
+
+    function setSubmitting(is) {
+      submitBtn.disabled = is;
+      submitBtn.style.opacity = is ? '0.6' : '1';
+    }
+
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (otpInput.value === FIXED_OTP) {
-        msg.style.color = "green";
-        msg.textContent = "OTP Verified! Redirecting...";
-        setTimeout(() => {
-          window.location.href = "dashboard.html";
-        }, 800);
+      setMessage('');
+      const otp = (otpInput.value || '').toString().trim();
+      if (!otp) {
+        setMessage('Please enter the OTP.', 'error');
+        return;
+      }
+
+      setSubmitting(true);
+
+      // Client-side check against fixed OTP
+      if (otp === FIXED_OTP) {
+        setMessage('OTP verified. Redirecting...', 'success');
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
       } else {
-        msg.style.color = "red";
-        msg.textContent = "Invalid OTP. Try again.";
+        setMessage('Incorrect OTP. Please try again.', 'error');
+        setSubmitting(false);
+        otpInput.focus();
       }
     });
+
+    // clear message when user types
+    otpInput.addEventListener('input', () => { if (msgEl.textContent) setMessage(''); });
   </script>
 </body>
 </html>
