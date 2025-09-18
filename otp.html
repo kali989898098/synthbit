@@ -1,40 +1,98 @@
+<!-- otp.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>OTP Verification</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"> <!-- optional -->
+  <style>
+    /* Minimal inline styling so it looks okay if no CSS present */
+    body { font-family: Arial, sans-serif; background: #f2f6fb; color:#122; }
+    .container { max-width:420px; margin:80px auto; padding:28px; background:#fff; border-radius:10px; box-shadow:0 8px 20px rgba(0,0,0,0.08); text-align:center; }
+    input { width:84%; padding:10px; margin:10px 0; border-radius:6px; border:1px solid #ccc; }
+    button { padding:10px 18px; border:none; border-radius:6px; background:#0a2342; color:#fff; cursor:pointer; }
+    #devHint { margin-top:12px; font-size:0.9rem; color:#444; text-align:left; }
+    code { background:#eee; padding:2px 6px; border-radius:4px; }
+  </style>
 </head>
 <body>
-  <div class="container otp-page">
-    <h1>Enter OTP</h1>
-    <form id="otpForm">
-      <input type="number" id="otpInput" placeholder="Enter OTP" required>
-      <button type="submit">Verify OTP</button>
+  <div class="container">
+    <h1>OTP Verification</h1>
+
+    <form id="otpForm" autocomplete="off">
+      <input id="otpInput" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter OTP" required />
+      <div><button type="submit">Verify OTP</button></div>
     </form>
-    <p>OR</p>
-    <button id="bypassBtn">Bypass OTP (For Testing)</button>
+
+    <p style="margin:12px 0;font-weight:600">OR</p>
+
+    <!-- Developer-only bypass (visible) -->
+    <button id="bypassBtn">Bypass OTP (Developer)</button>
+
+    <p id="devHint">
+      <strong>Developer helpers (DEVELOPMENT ONLY):</strong><br>
+      • Add <code>?bypass=1</code> to this page URL to auto-redirect.<br>
+      • Or in the console run <code>localStorage.setItem('otp_bypass','1')</code> then reload.<br>
+      • Clicking "Bypass OTP" sets the flag and continues.
+    </p>
   </div>
 
   <script>
+    /*****************************************************
+     * otp.html
+     * - Fixed OTP: "7856"
+     * - Developer bypass: ?bypass=1, localStorage flag, or button
+     *
+     * Remove or disable bypass helpers before production.
+     *****************************************************/
+
+    const FIXED_OTP = "7856";
     const otpForm = document.getElementById('otpForm');
     const bypassBtn = document.getElementById('bypassBtn');
 
-    // OTP verification
-    otpForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      const otp = document.getElementById('otpInput').value;
-      if(otp === "7856"){
-        window.location.href = "dashboard.html";
-      } else {
-        alert("Incorrect OTP!");
+    // Read query param
+    function getQueryParam(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    // Check if bypass is enabled
+    function isBypassEnabled() {
+      if (getQueryParam('bypass') === '1') return true;
+      if (localStorage.getItem('otp_bypass') === '1') return true;
+      return false;
+    }
+
+    // Auto-redirect immediately if bypass enabled (short delay so UI shows)
+    window.addEventListener('DOMContentLoaded', () => {
+      if (isBypassEnabled()) {
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 300);
       }
     });
 
-    // Bypass OTP for testing
-    bypassBtn.addEventListener('click', function(){
-      window.location.href = "dashboard.html";
+    // OTP form submit
+    otpForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Respect bypass flag
+      if (isBypassEnabled()) {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+
+      const otp = document.getElementById('otpInput').value.trim();
+      if (otp === FIXED_OTP) {
+        window.location.href = 'dashboard.html';
+      } else {
+        alert('Incorrect OTP — try again.');
+      }
+    });
+
+    // Bypass button: set persistent flag and redirect
+    bypassBtn.addEventListener('click', function () {
+      localStorage.setItem('otp_bypass', '1');
+      alert('Bypass enabled (developer). Redirecting to dashboard...');
+      window.location.href = 'dashboard.html';
     });
   </script>
 </body>
