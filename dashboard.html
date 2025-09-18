@@ -3,55 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Synthbit Technology</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Hacker Dashboard</title>
+  <style>
+    body {
+      margin:0; font-family:'Courier New', monospace;
+      background:#0d1117; color:#33ff33; line-height:1.4;
+    }
+    header {
+      background:#010409; padding:20px; text-align:center; font-size:1.5rem;
+      border-bottom:1px solid #33ff33;
+    }
+    .container { padding:20px; }
+    h2 { color:#ff6f00; margin-bottom:10px; }
+    .cards { display:flex; flex-wrap:wrap; gap:20px; margin-top:20px; }
+    .card {
+      flex:1 1 200px; background:#010409; border:1px solid #33ff33;
+      padding:15px; border-radius:8px; min-width:180px; transition:0.3s;
+    }
+    .card:hover { background:#161b22; box-shadow:0 0 10px #33ff33; }
+    .card h3 { margin-bottom:8px; color:#33ff33; }
+    .card p { font-size:0.9rem; color:#c1f5c1; }
+    .console {
+      background:#010409; border:1px solid #33ff33; border-radius:6px;
+      padding:10px; margin-top:20px; font-size:0.9rem; height:200px; overflow-y:auto;
+    }
+    .console span { display:block; }
+    footer { text-align:center; padding:15px; border-top:1px solid #33ff33; margin-top:30px; color:#33ff33; font-size:0.9rem; }
+  </style>
 </head>
 <body>
-
-  <header>
-    <h1>Synthbit Technology Dashboard</h1>
-    <nav>
-      <a href="#dashboard">Dashboard</a> |
-      <a href="#support">Support</a> |
-      <a href="#resources">Resources</a> |
-      <a href="#roles">Roles</a> |
-      <a href="index.html">Logout</a>
-    </nav>
-  </header>
-
-  <section id="dashboard">
-    <h2>Welcome, User!</h2>
-    <p>Access your courses, projects, support, and resources below.</p>
-  </section>
-
-  <section id="quick-actions">
-    <h3>Quick Actions</h3>
+  <header>Hacker Dashboard</header>
+  <div class="container">
+    <h2>Welcome to the Dashboard</h2>
     <div class="cards">
-      <div class="card"><h4>Profile</h4><p>View/edit your profile.</p></div>
-      <div class="card"><h4>Courses</h4><p>Access enrolled courses.</p></div>
-      <div class="card"><h4>Support</h4><p>Contact support.</p></div>
+      <div class="card"><h3>Network Scan</h3><p>Simulated scanning of network devices.</p></div>
+      <div class="card"><h3>Logs</h3><p>View system and security logs (demo).</p></div>
+      <div class="card"><h3>Tasks</h3><p>Check ongoing tasks and alerts.</p></div>
+      <div class="card"><h3>Reports</h3><p>Generate security reports (demo).</p></div>
     </div>
-  </section>
+    <div class="console" id="console">
+      <span>[INFO] Dashboard loaded.</span>
+      <span>[INFO] Initializing modules...</span>
+    </div>
+  </div>
+  <footer>&copy; 2025 Synthbit Demo</footer>
 
-  <section id="support">
-    <h3>Support Contacts</h3>
-    <ul>
-      <li>Email: support@synthbit.com</li>
-      <li>Phone: +977-123456789</li>
-      <li>Live Chat: 9 AM - 6 PM</li>
-    </ul>
-  </section>
-
-  <section id="resources">
-    <h3>Resources</h3>
-    <ul>
-      <li>LMS Platform</li>
-      <li>Community Forums</li>
-      <li>Knowledge Base</li>
-    </ul>
-  </section>
-
-  <section id="roles">
-    <h3>Roles & Permissions</h3>
-    <ul>
-      <li><b>Student:</b> Access courses,
+  <script>
+    const consoleEl = document.getElementById('console');
+    const messages = [
+      "[INFO] Running security check...",
+      "[ALERT] Suspicious activity detected!",
+      "[INFO] Simulating network packet capture...",
+      "[SUCCESS] Demo scan complete.",
+      "[INFO] Logs updated."
+    ];
+    let index=0;
+    setInterval(()=>{
+      if(index<messages.length){
+        const span=document.createElement('span');
+        span.textContent=messages[index++];
+        consoleEl.appendChild(span);
+        consoleEl.scrollTop=consoleEl.scrollHeight;
+      }
+    },2000);
+  </script>
+</body>
+</html>
