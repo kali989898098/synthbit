@@ -3,41 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OTP Verification - Synthbit Technology</title>
+  <title>OTP Verification</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <header>
-    <h1>Synthbit Technology</h1>
-  </header>
-
-  <section id="otp">
-    <div class="otp-card">
-      <h2>OTP Verification</h2>
-      <p>OTP has been sent to your registered email/phone.</p>
-
-      <input type="text" id="otpInput" placeholder="Enter OTP" required>
-      <button type="button" id="verifyOTPBtn">Verify OTP</button>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Synthbit Cybersecurity Institute. All Rights Reserved.</p>
-  </footer>
+  <div class="container otp-page">
+    <h1>Enter OTP</h1>
+    <form id="otpForm">
+      <input type="number" id="otpInput" placeholder="Enter OTP" required>
+      <button type="submit">Verify OTP</button>
+    </form>
+    <p>OR</p>
+    <button id="bypassBtn">Bypass OTP (For Testing)</button>
+  </div>
 
   <script>
-    const fixedOTP = "7856"; // hidden OTP
-    const verifyBtn = document.getElementById('verifyOTPBtn');
+    const otpForm = document.getElementById('otpForm');
+    const bypassBtn = document.getElementById('bypassBtn');
 
-    verifyBtn.addEventListener('click', () => {
+    // OTP verification
+    otpForm.addEventListener('submit', function(e){
+      e.preventDefault();
       const otp = document.getElementById('otpInput').value;
-      if (otp === fixedOTP) {
-        alert("OTP verified successfully!");
+      if(otp === "7856"){
         window.location.href = "dashboard.html";
       } else {
-        alert("Invalid OTP! Please try again.");
+        alert("Incorrect OTP!");
       }
+    });
+
+    // Bypass OTP for testing
+    bypassBtn.addEventListener('click', function(){
+      window.location.href = "dashboard.html";
     });
   </script>
 </body>
